@@ -1,14 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, only: [:edit, :update]
+  before_action :require_user, only: [:edit, :update, :index]
   before_action :require_same_user, only: [:edit, :update, :destroy]
+
 
   def show
     @user = User.find(params[:id])
   end
 
   def index
-    @users = User.where(admin: false).paginate(page: params[:page], per_page: 5)
+    @users = User.list_users.paginate(page: params[:page], per_page: 5)
   end
 
   def new
@@ -33,6 +34,7 @@ class UsersController < ApplicationController
       @user_profile_url = @user.profile_picture.url.to_s
       session[:user_id] = @user.id
       flash[:notice] = "Welcome to the Solbeg #{@user.username}, you have successfully signed up"
+      redirect_to @user
     else
       render 'new'
     end

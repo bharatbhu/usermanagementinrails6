@@ -10,4 +10,9 @@ class User < ApplicationRecord
                       length: { maximum: 105 },
                       format: { with: VALID_EMAIL_REGEX }
   has_secure_password
+
+  def self.list_users
+    User.where(admin: false)
+  end
+
 end
