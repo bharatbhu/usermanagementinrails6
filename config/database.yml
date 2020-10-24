@@ -9,17 +9,26 @@
 # And be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
+# default: &default
+#   adapter: mysql2
+#   host: localhost
+#   port: 5432
+#   username: root
+#   password: root
+#   # For details on connection pooling, see Rails configuration guide
+#   # https://guides.rubyonrails.org/configuring.html#database-pooling
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
 default: &default
   adapter: postgresql
-  encoding: unicode
-  host: localhost
-  port: 5432
-  username:
-  password:
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  database: <%= ENV['POSTGRES_DB'] || 'edify_online_development' %>
+  encoding: UTF8
+  username: "postgres"
+  password: "password"
+  port:  <%= ENV['PGPORT'] || '5432' %>
+  host: <%= ENV['PGHOST'] || 'localhost' %>
+  min_messages: warning
+  pool: <%= ENV['DATABASE_POOL'] || 5 %>
 development:
   <<: *default
   database: usermanagementapp_development
